@@ -13,8 +13,7 @@
 
       <div class="form-group">
         {{ form.master_password.label }} {{
-        form.master_password(class="form-control", placeholder="Master
-        password", autofocus=true) }} {% for error in
+        form.master_password(class="form-control", placeholder="Master Password", autofocus=true) }} {% for error in
         form.master_password.errors %}
         <span class="field-error">{{ error }}</span>
         {% endfor %}
