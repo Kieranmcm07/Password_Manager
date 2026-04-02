@@ -16,6 +16,7 @@ endblock %} {% block content %}
         placeholder="Click Generate to create a password"
       />
       <button
+        type="button"
         class="btn btn-muted"
         onclick="copyFromInput('generated-pw', this)"
       >
@@ -57,7 +58,11 @@ endblock %} {% block content %}
       </div>
     </div>
 
-    <button class="btn btn-primary btn-block" onclick="runGenerator()">
+    <button
+      type="button"
+      class="btn btn-primary btn-block"
+      onclick="runGenerator()"
+    >
       Generate
     </button>
   </div>

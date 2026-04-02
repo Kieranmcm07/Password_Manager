@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block title %}Account — KeyVault{% endblock %} {%
+block content %}
+<div class="form-page-wrapper">
+  <div class="form-page-header">
+    <h1>Account</h1>
+  </div>
+
+  <div class="form-card">
+    <div class="account-row">
+      <span class="account-label">Username</span>
+      <span>{{ user.username }}</span>
+    </div>
+
+    <div class="account-row">
+      <span class="account-label">Email</span>
+      <span>{{ user.email }}</span>
+    </div>
+
+    <div class="account-row">
+      <span class="account-label">Created</span>
+      <span>{{ user.created_at.strftime('%b %d, %Y') }}</span>
+    </div>
+
+    <hr />
+
+    <div class="form-actions">
+      <a href="{{ url_for('auth.change_password') }}" class="btn btn-primary">Change account password</a>
+      <a href="{{ url_for('vault.change_master_password') }}" class="btn btn-muted">Change master password</a>
+    </div>
+
+    <div class="form-actions">
+      <a href="{{ url_for('auth.logout') }}" class="btn btn-muted">Log out</a>
+      <a href="{{ url_for('auth.delete_account') }}" class="btn btn-danger">Delete account</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

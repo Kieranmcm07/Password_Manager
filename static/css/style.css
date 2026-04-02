@@ -21,6 +21,27 @@
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
+body.dark-mode {
+  --bg: #0f172a;
+  --surface: #111827;
+  --navbar-bg: #020617;
+  --navbar-text: #e5e7eb;
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --text: #f3f4f6;
+  --text-muted: #9ca3af;
+  --border: #374151;
+  --danger: #ef4444;
+  --danger-dark: #dc2626;
+  --success-bg: #052e16;
+  --success-text: #86efac;
+  --error-bg: #450a0a;
+  --error-text: #fca5a5;
+  --info-bg: #172554;
+  --info-text: #93c5fd;
+  --shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.25);
+}
+
 /* Reset / Base */
 *,
 *::before,
@@ -602,4 +623,104 @@ textarea.form-control {
   .password-field-row {
     flex-wrap: wrap;
   }
+}
+
+.site-footer {
+  margin-top: 3rem;
+  padding: 1rem 1.5rem 2rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: var(--primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
+
+.account-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 1rem;
+}
+
+.account-label {
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.theme-toggle {
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: transparent;
+  color: var(--navbar-text);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.entry-card,
+.form-card,
+.auth-card {
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.entry-card:hover,
+.form-card:hover,
+.auth-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+.btn,
+.btn-icon {
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.btn:hover,
+.btn-icon:hover {
+  transform: translateY(-1px);
+}
+.form-control {
+  min-height: 42px;
+}
+.entry-row {
+  min-height: 44px;
+}
+body {
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(255, 255, 255, 0.02),
+      rgba(255, 255, 255, 0)
+    ),
+    var(--bg);
+}
+
+.nav-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.14);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
 }

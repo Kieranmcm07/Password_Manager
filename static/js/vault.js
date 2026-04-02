@@ -163,3 +163,18 @@ function fillGenerated(inputId) {
   input.value = pw;
   input.type = "text";
 }
+
+function toggleTheme() {
+  const body = document.body;
+  body.classList.toggle("dark-mode");
+
+  const isDark = body.classList.contains("dark-mode");
+  localStorage.setItem("theme", isDark ? "dark" : "light");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const savedTheme = localStorage.getItem("theme");
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark-mode");
+  }
+});

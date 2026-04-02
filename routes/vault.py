@@ -3,9 +3,12 @@ from flask_login import login_required, current_user
 from nacl.exceptions import CryptoError
 
 from extensions import limiter
-from forms import UnlockVaultForm, VaultEntryForm
+from forms import UnlockVaultForm, VaultEntryForm, ChangeMasterPasswordForm
 from services.crypto import derive_key, key_to_session_str, decrypt
 from services import vault_service
+from extensions import limiter, db
+from services.crypto import derive_key, key_to_session_str, decrypt, encrypt, generate_kdf_salt
+from models import VaultEntry
 
 vault_bp = Blueprint("vault", __name__)
 
@@ -161,6 +164,68 @@ def delete_entry(entry_id):
         flash("Entry not found.", "error")
 
     return redirect(url_for("vault.entries"))
+
+
+@vault_bp.route("/account/change-master-password", methods=["GET", "POST"])
+@login_required
+def change_master_password():
+    if not _vault_unlocked():
+        return redirect(url_for("vault.unlock"))
+
+    form = ChangeMasterPasswordForm()
+
+    if form.validate_on_submit():
+        try:
+            old_key = derive_key(
+                form.current_master_password.data,
+                current_user.kdf_salt,
+            )
+
+            result = decrypt(current_user.master_verify, old_key)
+            if result != "vault_ok":
+                raise ValueError("Verification string mismatch")
+
+            entries = VaultEntry.query.filter_by(user_id=current_user.id).all()
+
+            decrypted_entries = []
+            for entry in entries:
+                decrypted_entries.append(
+                    {
+                        "entry": entry,
+                        "username": (
+                            decrypt(entry.username_enc, old_key)
+                            if entry.username_enc
+                            else ""
+                        ),
+                        "password": decrypt(entry.password_enc, old_key),
+                        "notes": (
+                            decrypt(entry.notes_enc, old_key) if entry.notes_enc else ""
+                        ),
+                    }
+                )
+
+            new_salt = generate_kdf_salt()
+            new_key = derive_key(form.new_master_password.data, new_salt)
+
+            for item in decrypted_entries:
+                entry = item["entry"]
+                entry.username_enc = encrypt(item["username"], new_key)
+                entry.password_enc = encrypt(item["password"], new_key)
+                entry.notes_enc = encrypt(item["notes"], new_key)
+
+            current_user.kdf_salt = new_salt
+            current_user.master_verify = encrypt("vault_ok", new_key)
+
+            db.session.commit()
+            session["vault_key"] = key_to_session_str(new_key)
+
+            flash("Master password updated.", "success")
+            return redirect(url_for("misc.account"))
+
+        except (CryptoError, ValueError):
+            flash("Current master password is incorrect.", "error")
+
+    return render_template("vault/change_master_password.html", form=form)
 
 
 # All the vault routes. Every route checks _vault_unlocked() before doing anything, and every database call passes user_id to prevent one user from touching another's entries.

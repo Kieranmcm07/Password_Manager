@@ -5,7 +5,12 @@ from argon2.exceptions import VerifyMismatchError
 
 from extensions import db, limiter
 from models import User
-from forms import RegistrationForm, LoginForm
+from forms import (
+    RegistrationForm,
+    LoginForm,
+    ChangeAccountPasswordForm,
+    DeleteAccountForm,
+)
 from services.crypto import generate_kdf_salt, derive_key, encrypt
 
 auth_bp = Blueprint("auth", __name__)
@@ -99,6 +104,55 @@ def logout():
     logout_user()
     flash("You have been logged out.", "info")
     return redirect(url_for("auth.login"))
+
+
+@auth_bp.route("/account/change-password", methods=["GET", "POST"])
+@login_required
+def change_password():
+    form = ChangeAccountPasswordForm()
+
+    if form.validate_on_submit():
+        try:
+            ph.verify(current_user.password_hash, form.current_password.data)
+        except VerifyMismatchError:
+            flash("Current password is incorrect.", "error")
+            return render_template("auth/change_password.html", form=form)
+
+        current_user.password_hash = ph.hash(form.new_password.data)
+        db.session.commit()
+
+        flash("Account password updated.", "success")
+        return redirect(url_for("misc.account"))
+
+    return render_template("auth/change_password.html", form=form)
+
+
+@auth_bp.route("/account/delete", methods=["GET", "POST"])
+@login_required
+def delete_account():
+    form = DeleteAccountForm()
+
+    if form.validate_on_submit():
+        try:
+            ph.verify(current_user.password_hash, form.password.data)
+        except VerifyMismatchError:
+            flash("Account password is incorrect.", "error")
+            return render_template("auth/delete_account.html", form=form)
+
+        if form.confirm_text.data.strip() != "DELETE":
+            flash("Please type DELETE exactly to confirm.", "error")
+            return render_template("auth/delete_account.html", form=form)
+        
+        user = current_user._get_current_object()
+        logout_user()
+        session.pop("vault_key", None)
+        db.session.delete(user)
+        db.session.commit()
+
+        flash("Your account has been deleted.", "info")
+        return redirect(url_for("auth.register"))
+
+    return render_template("auth/delete_account.html", form=form)
 
 
 # Handles registration and login. The key thing: account password and master password are handled completely separately. Logging in does not unlock the vault.

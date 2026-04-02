@@ -90,5 +90,58 @@ class VaultEntryForm(FlaskForm):
     )
 
 
+class ChangeAccountPasswordForm(FlaskForm):
+    current_password = PasswordField(
+        "Current Account Password",
+        validators=[DataRequired()],
+    )
+    new_password = PasswordField(
+        "New Account Password",
+        validators=[
+            DataRequired(),
+            Length(min=8, message="Use at least 8 characters."),
+        ],
+    )
+    confirm_new_password = PasswordField(
+        "Confirm New Account Password",
+        validators=[
+            DataRequired(),
+            EqualTo("new_password", message="Passwords do not match."),
+        ],
+    )
+
+
+class DeleteAccountForm(FlaskForm):
+    password = PasswordField(
+        "Account Password",
+        validators=[DataRequired()],
+    )
+    confirm_text = StringField(
+        "Type DELETE to confirm",
+        validators=[DataRequired()],
+    )
+
+
+class ChangeMasterPasswordForm(FlaskForm):
+    current_master_password = PasswordField(
+        "Current Master Password",
+        validators=[DataRequired()],
+    )
+    new_master_password = PasswordField(
+        "New Master Password",
+        validators=[
+            DataRequired(),
+            Length(min=8, message="Use at least 8 characters."),
+        ],
+    )
+    confirm_new_master_password = PasswordField(
+        "Confirm New Master Password",
+        validators=[
+            DataRequired(),
+            EqualTo("new_master_password", message="Passwords do not match."),
+        ],
+    )
+
+
 # Form classes with validation. The registration form asks for both an account password
 # And a separate master password up front, so the user understands from the start that these are two different things.

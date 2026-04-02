@@ -14,9 +14,10 @@ def home():
 @misc_bp.route("/generator")
 @login_required
 def generator():
-    # The actual generation happens client-side in JavaScript.
-    # No sensitive data goes to the server for this one.
     return render_template("misc/generator.html")
 
 
-# Just two routes. Home redirects based on auth state, generator renders the password generator page.
+@misc_bp.route("/account")
+@login_required
+def account():
+    return render_template("misc/account.html", user=current_user)

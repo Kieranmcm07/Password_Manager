@@ -14,10 +14,14 @@
       <a href="{{ url_for('misc.home') }}" class="nav-brand">🔐 KeyVault</a>
       <div class="nav-links">
         {% if current_user.is_authenticated %}
-        <span class="nav-user">{{ current_user.username }}</span>
+        <span class="nav-avatar">{{ current_user.username[0]|upper }}</span>
+        <button type="button" class="theme-toggle" onclick="toggleTheme()">
+          Dark mode
+        </button>
         <a href="{{ url_for('vault.entries') }}">Vault</a>
         <a href="{{ url_for('misc.generator') }}">Generator</a>
         <a href="{{ url_for('vault.lock') }}">Lock</a>
+        <a href="{{ url_for('misc.account') }}">Account</a>
         <a href="{{ url_for('auth.logout') }}">Logout</a>
         {% else %}
         <a href="{{ url_for('auth.login') }}">Login</a>
@@ -39,4 +43,14 @@
 
     <script src="{{ url_for('static', filename='js/vault.js') }}"></script>
   </body>
+
+  <footer class="site-footer">
+    Built by
+    <a
+      href="https://github.com/Kieranmcm07"
+      target="_blank"
+      rel="noopener noreferrer"
+      >Kieranmcm07</a
+    >
+  </footer>
 </html>
