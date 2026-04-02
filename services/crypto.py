@@ -2,6 +2,7 @@ import base64
 import nacl.pwhash
 import nacl.secret
 import nacl.utils
+
 # noqa: F401 - re-exported for convenience
 from nacl.exceptions import CryptoError
 
@@ -13,6 +14,7 @@ OPS_LIMIT = nacl.pwhash.argon2id.OPSLIMIT_INTERACTIVE
 MEM_LIMIT = nacl.pwhash.argon2id.MEMLIMIT_INTERACTIVE
 # 32 bytes
 KEY_SIZE = nacl.secret.SecretBox.KEY_SIZE
+
 
 def generate_kdf_salt() -> str:
     """
@@ -64,6 +66,7 @@ def decrypt(ciphertext_b64: str, key: bytes) -> str:
     plaintext_bytes = box.decrypt(raw)
     return plaintext_bytes.decode("utf-8")
 
+
 def key_to_session_str(key: bytes) -> str:
     """Encode the key as a base64 string for storing in the Flask session."""
     return base64.b64encode(key).decode("utf-8")
@@ -72,6 +75,7 @@ def key_to_session_str(key: bytes) -> str:
 def key_from_session_str(key_str: str) -> bytes:
     """Decode the base64 string back to raw key bytes."""
     return base64.b64decode(key_str)
+
 
 # The whole crypto layer in one file. PyNaCl's SecretBox handles nonce generation, encryption, and authentication in one call.
 # There's not much we can get wrong. The tricky part is key derivation, and Argon2id handles that.

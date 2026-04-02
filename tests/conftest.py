@@ -35,29 +35,46 @@ def db(app):
         _db.session.commit()
 
 
-def register_user(client, username="testuser", email="test@example.com",
-                  password="accountpass123", master_password="masterpass123"):
+def register_user(
+    client,
+    username="testuser",
+    email="test@example.com",
+    password="accountpass123",
+    master_password="masterpass123",
+):
     """Helper to register a user through the web form."""
-    return client.post("/register", data={
-        "username": username,
-        "email": email,
-        "password": password,
-        "confirm_password": password,
-        "master_password": master_password,
-        "confirm_master": master_password,
-    }, follow_redirects=True)
+    return client.post(
+        "/register",
+        data={
+            "username": username,
+            "email": email,
+            "password": password,
+            "confirm_password": password,
+            "master_password": master_password,
+            "confirm_master": master_password,
+        },
+        follow_redirects=True,
+    )
 
 
 def login_user(client, email="test@example.com", password="accountpass123"):
     """Helper to log in through the web form."""
-    return client.post("/login", data={
-        "email": email,
-        "password": password,
-    }, follow_redirects=True)
+    return client.post(
+        "/login",
+        data={
+            "email": email,
+            "password": password,
+        },
+        follow_redirects=True,
+    )
 
 
 def unlock_vault(client, master_password="masterpass123"):
     """Helper to unlock the vault through the web form."""
-    return client.post("/unlock", data={
-        "master_password": master_password,
-    }, follow_redirects=True)
+    return client.post(
+        "/unlock",
+        data={
+            "master_password": master_password,
+        },
+        follow_redirects=True,
+    )

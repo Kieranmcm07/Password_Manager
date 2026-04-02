@@ -1,43 +1,42 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}KeyVault{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-
-<nav class="navbar">
-    <a href="{{ url_for('misc.home') }}" class="nav-brand">🔐 KeyVault</a>
-    <div class="nav-links">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/style.css') }}"
+    />
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="{{ url_for('misc.home') }}" class="nav-brand">🔐 KeyVault</a>
+      <div class="nav-links">
         {% if current_user.is_authenticated %}
-            <span class="nav-user">{{ current_user.username }}</span>
-            <a href="{{ url_for('vault.entries') }}">Vault</a>
-            <a href="{{ url_for('misc.generator') }}">Generator</a>
-            <a href="{{ url_for('vault.lock') }}">Lock</a>
-            <a href="{{ url_for('auth.logout') }}">Logout</a>
+        <span class="nav-user">{{ current_user.username }}</span>
+        <a href="{{ url_for('vault.entries') }}">Vault</a>
+        <a href="{{ url_for('misc.generator') }}">Generator</a>
+        <a href="{{ url_for('vault.lock') }}">Lock</a>
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
         {% else %}
-            <a href="{{ url_for('auth.login') }}">Login</a>
-            <a href="{{ url_for('auth.register') }}">Register</a>
+        <a href="{{ url_for('auth.login') }}">Login</a>
+        <a href="{{ url_for('auth.register') }}">Register</a>
         {% endif %}
-    </div>
-</nav>
+      </div>
+    </nav>
 
-<main class="page-content">
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="flash-container">
-                {% for category, message in messages %}
-                    <div class="flash flash-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endwith %}
+    <main class="page-content">
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %}
+      <div class="flash-container">
+        {% for category, message in messages %}
+        <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+      {% endif %} {% endwith %} {% block content %}{% endblock %}
+    </main>
 
-    {% block content %}{% endblock %}
-</main>
-
-<script src="{{ url_for('static', filename='js/vault.js') }}"></script>
-</body>
+    <script src="{{ url_for('static', filename='js/vault.js') }}"></script>
+  </body>
 </html>

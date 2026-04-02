@@ -1,50 +1,65 @@
-{% extends "base.html" %}
-{% block title %}Password Generator — KeyVault{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Password Generator — KeyVault{%
+endblock %} {% block content %}
 <div class="form-page-wrapper">
-    <h1>Password generator</h1>
-    <p class="auth-subtitle">Generated entirely in your browser — nothing is sent to the server.</p>
+  <h1>Password generator</h1>
+  <p class="auth-subtitle">
+    Generated entirely in your browser — nothing is sent to the server.
+  </p>
 
-    <div class="form-card generator-card">
-        <div class="generated-output">
-            <input type="text"
-                   id="generated-pw"
-                   class="form-control generated-pw-input"
-                   readonly
-                   placeholder="Click Generate to create a password">
-            <button class="btn btn-muted" onclick="copyFromInput('generated-pw', this)">Copy</button>
-        </div>
-
-        <div class="generator-controls">
-            <div class="form-group">
-                <label for="pw-length">Length: <span id="length-display">20</span></label>
-                <input type="range"
-                       id="pw-length"
-                       min="8"
-                       max="64"
-                       value="20"
-                       class="range-slider"
-                       oninput="document.getElementById('length-display').textContent = this.value">
-            </div>
-
-            <div class="checkbox-options">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="opt-upper" checked> Uppercase (A–Z)
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="opt-lower" checked> Lowercase (a–z)
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="opt-numbers" checked> Numbers (0–9)
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" id="opt-symbols"> Symbols (!@#$…)
-                </label>
-            </div>
-        </div>
-
-        <button class="btn btn-primary btn-block" onclick="runGenerator()">Generate</button>
+  <div class="form-card generator-card">
+    <div class="generated-output">
+      <input
+        type="text"
+        id="generated-pw"
+        class="form-control generated-pw-input"
+        readonly
+        placeholder="Click Generate to create a password"
+      />
+      <button
+        class="btn btn-muted"
+        onclick="copyFromInput('generated-pw', this)"
+      >
+        Copy
+      </button>
     </div>
+
+    <div class="generator-controls">
+      <div class="form-group">
+        <label for="pw-length"
+          >Length: <span id="length-display">20</span></label
+        >
+        <input
+          type="range"
+          id="pw-length"
+          min="8"
+          max="64"
+          value="20"
+          class="range-slider"
+          oninput="
+            document.getElementById('length-display').textContent = this.value
+          "
+        />
+      </div>
+
+      <div class="checkbox-options">
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-upper" checked /> Uppercase (A–Z)
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-lower" checked /> Lowercase (a–z)
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-numbers" checked /> Numbers (0–9)
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" id="opt-symbols" /> Symbols (!@#$…)
+        </label>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block" onclick="runGenerator()">
+      Generate
+    </button>
+  </div>
 </div>
 {% endblock %}

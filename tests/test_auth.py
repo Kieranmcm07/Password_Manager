@@ -21,14 +21,18 @@ def test_register_duplicate_username(client, db):
 
 
 def test_register_password_mismatch(client, db):
-    response = client.post("/register", data={
-        "username": "user1",
-        "email": "user1@example.com",
-        "password": "goodpassword1",
-        "confirm_password": "differentpassword",
-        "master_password": "masterpass123",
-        "confirm_master": "masterpass123",
-    }, follow_redirects=True)
+    response = client.post(
+        "/register",
+        data={
+            "username": "user1",
+            "email": "user1@example.com",
+            "password": "goodpassword1",
+            "confirm_password": "differentpassword",
+            "master_password": "masterpass123",
+            "confirm_master": "masterpass123",
+        },
+        follow_redirects=True,
+    )
     # Should stay on the register page with an error
     assert b"do not match" in response.data
 
@@ -42,19 +46,27 @@ def test_login_correct_credentials(client, db):
 
 def test_login_wrong_password(client, db):
     register_user(client)
-    response = client.post("/login", data={
-        "email": "test@example.com",
-        "password": "wrongpassword",
-    }, follow_redirects=True)
+    response = client.post(
+        "/login",
+        data={
+            "email": "test@example.com",
+            "password": "wrongpassword",
+        },
+        follow_redirects=True,
+    )
     assert b"Invalid email or password" in response.data
 
 
 def test_login_wrong_email(client, db):
     register_user(client)
-    response = client.post("/login", data={
-        "email": "nobody@example.com",
-        "password": "accountpass123",
-    }, follow_redirects=True)
+    response = client.post(
+        "/login",
+        data={
+            "email": "nobody@example.com",
+            "password": "accountpass123",
+        },
+        follow_redirects=True,
+    )
     assert b"Invalid email or password" in response.data
 
 

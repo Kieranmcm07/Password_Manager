@@ -12,10 +12,7 @@ def get_all_entries(user_id: int, vault_key_str: str) -> list:
     """Fetch and decrypt all entries for a user, sorted by site name."""
     key = key_from_session_str(vault_key_str)
     entries = (
-        VaultEntry.query
-        .filter_by(user_id=user_id)
-        .order_by(VaultEntry.site_name)
-        .all()
+        VaultEntry.query.filter_by(user_id=user_id).order_by(VaultEntry.site_name).all()
     )
     return [_decrypt_entry(e, key) for e in entries]
 
@@ -29,8 +26,7 @@ def search_entries(user_id: int, vault_key_str: str, query: str) -> list:
     key = key_from_session_str(vault_key_str)
     like = f"%{query}%"
     entries = (
-        VaultEntry.query
-        .filter(
+        VaultEntry.query.filter(
             VaultEntry.user_id == user_id,
             or_(
                 VaultEntry.site_name.ilike(like),

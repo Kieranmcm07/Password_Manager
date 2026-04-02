@@ -100,4 +100,5 @@ def logout():
     flash("You have been logged out.", "info")
     return redirect(url_for("auth.login"))
 
+
 # Handles registration and login. The key thing: account password and master password are handled completely separately. Logging in does not unlock the vault.

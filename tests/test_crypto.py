@@ -100,5 +100,5 @@ def test_key_session_roundtrip():
 def test_encrypt_handles_special_characters():
     salt = generate_kdf_salt()
     key = derive_key("master password", salt)
-    tricky = "p@$$w0rd! \"quotes\" & <tags> 你好"
+    tricky = 'p@$$w0rd! "quotes" & <tags> 你好'
     assert decrypt(encrypt(tricky, key), key) == tricky

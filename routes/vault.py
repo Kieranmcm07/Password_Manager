@@ -68,7 +68,9 @@ def entries():
 
     try:
         if query:
-            items = vault_service.search_entries(current_user.id, session["vault_key"], query)
+            items = vault_service.search_entries(
+                current_user.id, session["vault_key"], query
+            )
         else:
             items = vault_service.get_all_entries(current_user.id, session["vault_key"])
     except CryptoError:
@@ -159,5 +161,6 @@ def delete_entry(entry_id):
         flash("Entry not found.", "error")
 
     return redirect(url_for("vault.entries"))
+
 
 # All the vault routes. Every route checks _vault_unlocked() before doing anything, and every database call passes user_id to prevent one user from touching another's entries.

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from extensions import db, login_manager, limiter, csrf
 from config import DevelopmentConfig, ProductionConfig, TestingConfig
 from models import User
+
 load_dotenv()
 
 
@@ -27,7 +28,7 @@ def create_app(config_class=None):
     login_manager.init_app(app)
     limiter.init_app(app)
     csrf.init_app(app)
-    
+
     login_manager.login_view = "auth.login"
     login_manager.login_message = "Please log in to continue."
     login_manager.login_message_category = "info"
@@ -55,5 +56,5 @@ def load_user(user_id):
 if __name__ == "__main__":
     app = create_app()
     app.run(debug=True)
-    
+
 # The app factory. Running python app.py starts the dev server. Tests import create_app with the test config.

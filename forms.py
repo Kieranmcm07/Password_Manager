@@ -14,21 +14,33 @@ class RegistrationForm(FlaskForm):
     )
     password = PasswordField(
         "Account Password",
-        validators=[DataRequired(), Length(min=8, message="Use at least 8 characters.")],
+        validators=[
+            DataRequired(),
+            Length(min=8, message="Use at least 8 characters."),
+        ],
     )
     confirm_password = PasswordField(
         "Confirm Account Password",
-        validators=[DataRequired(), EqualTo("password", message="Passwords do not match.")],
+        validators=[
+            DataRequired(),
+            EqualTo("password", message="Passwords do not match."),
+        ],
     )
     # The master password is separate from the account password.
     # It's used to derive the vault encryption key and is never stored.
     master_password = PasswordField(
         "Master Password",
-        validators=[DataRequired(), Length(min=8, message="Use at least 8 characters.")],
+        validators=[
+            DataRequired(),
+            Length(min=8, message="Use at least 8 characters."),
+        ],
     )
     confirm_master = PasswordField(
         "Confirm Master Password",
-        validators=[DataRequired(), EqualTo("master_password", message="Passwords do not match.")],
+        validators=[
+            DataRequired(),
+            EqualTo("master_password", message="Passwords do not match."),
+        ],
     )
 
 
@@ -76,6 +88,7 @@ class VaultEntryForm(FlaskForm):
         "Category",
         validators=[Optional(), Length(max=100)],
     )
-    
+
+
 # Form classes with validation. The registration form asks for both an account password
 # And a separate master password up front, so the user understands from the start that these are two different things.
