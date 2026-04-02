@@ -24,13 +24,21 @@ block content %}
     <hr />
 
     <div class="form-actions">
-      <a href="{{ url_for('auth.change_password') }}" class="btn btn-primary">Change account password</a>
-      <a href="{{ url_for('vault.change_master_password') }}" class="btn btn-muted">Change master password</a>
+      <a href="{{ url_for('auth.change_password') }}" class="btn btn-primary"
+        >Change account password</a
+      >
+      <a
+        href="{{ url_for('vault.change_master_password') }}"
+        class="btn btn-muted"
+        >Change master password</a
+      >
     </div>
 
     <div class="form-actions">
       <a href="{{ url_for('auth.logout') }}" class="btn btn-muted">Log out</a>
-      <a href="{{ url_for('auth.delete_account') }}" class="btn btn-danger">Delete account</a>
+      <a href="{{ url_for('auth.delete_account') }}" class="btn btn-danger"
+        >Delete account</a
+      >
     </div>
   </div>
 </div>

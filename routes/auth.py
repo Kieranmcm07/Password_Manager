@@ -142,7 +142,7 @@ def delete_account():
         if form.confirm_text.data.strip() != "DELETE":
             flash("Please type DELETE exactly to confirm.", "error")
             return render_template("auth/delete_account.html", form=form)
-        
+
         user = current_user._get_current_object()
         logout_user()
         session.pop("vault_key", None)

@@ -7,7 +7,13 @@ from forms import UnlockVaultForm, VaultEntryForm, ChangeMasterPasswordForm
 from services.crypto import derive_key, key_to_session_str, decrypt
 from services import vault_service
 from extensions import limiter, db
-from services.crypto import derive_key, key_to_session_str, decrypt, encrypt, generate_kdf_salt
+from services.crypto import (
+    derive_key,
+    key_to_session_str,
+    decrypt,
+    encrypt,
+    generate_kdf_salt,
+)
 from models import VaultEntry
 
 vault_bp = Blueprint("vault", __name__)
