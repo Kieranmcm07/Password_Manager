@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}Add Entry — KeyVault{% endblock %}
+
+{% block content %}
+<div class="form-page-wrapper">
+    <div class="form-page-header">
+        <h1>Add entry</h1>
+        <a href="{{ url_for('vault.entries') }}" class="btn btn-muted">← Back</a>
+    </div>
+
+    <div class="form-card">
+        <form method="POST" action="{{ url_for('vault.add_entry') }}" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.site_name.label }}
+                {{ form.site_name(class="form-control", placeholder="e.g. GitHub") }}
+                {% for error in form.site_name.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.url.label }}
+                {{ form.url(class="form-control", placeholder="https://github.com") }}
+                {% for error in form.url.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control", placeholder="Username or email") }}
+                {% for error in form.username.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.password.label }}
+                <div class="password-field-row">
+                    {{ form.password(class="form-control", id="entry-password") }}
+                    <button type="button" class="btn btn-muted" onclick="togglePwField('entry-password', this)">Show</button>
+                    <button type="button" class="btn btn-muted" onclick="fillGenerated('entry-password')">Generate</button>
+                </div>
+                {% for error in form.password.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.category.label }}
+                {{ form.category(class="form-control", placeholder="e.g. Work, Social, Finance") }}
+                {% for error in form.category.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.notes.label }}
+                {{ form.notes(class="form-control", rows="4", placeholder="Any extra notes…") }}
+                {% for error in form.notes.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save entry</button>
+                <a href="{{ url_for('vault.entries') }}" class="btn btn-muted">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block title %}My Vault — KeyVault{% endblock %}
+
+{% block content %}
+<div class="vault-wrapper">
+    <div class="vault-header">
+        <h1>Your vault</h1>
+        <a href="{{ url_for('vault.add_entry') }}" class="btn btn-primary">+ Add entry</a>
+    </div>
+
+    <form method="GET" action="{{ url_for('vault.entries') }}" class="search-form">
+        <input
+            type="text"
+            name="query"
+            value="{{ query }}"
+            placeholder="Search by site, URL, or category…"
+            class="form-control search-input"
+        >
+        <button type="submit" class="btn">Search</button>
+        {% if query %}
+            <a href="{{ url_for('vault.entries') }}" class="btn btn-muted">Clear</a>
+        {% endif %}
+    </form>
+
+    {% if query %}
+        <p class="search-results-label">
+            {{ entries | length }} result{% if entries | length != 1 %}s{% endif %} for "{{ query }}"
+        </p>
+    {% endif %}
+
+    {% if entries %}
+        <div class="entries-grid">
+            {% for entry in entries %}
+                <div class="entry-card">
+                    <div class="entry-card-header">
+                        <div class="entry-title-row">
+                            <span class="entry-site-name">{{ entry.site_name }}</span>
+                            {% if entry.category %}
+                                <span class="entry-badge">{{ entry.category }}</span>
+                            {% endif %}
+                        </div>
+                        <div class="entry-card-actions">
+                            <a href="{{ url_for('vault.edit_entry', entry_id=entry.id) }}" class="btn btn-sm">Edit</a>
+                            <form method="POST"
+                                  action="{{ url_for('vault.delete_entry', entry_id=entry.id) }}"
+                                  class="inline-form"
+                                  onsubmit="return confirm('Delete this entry?')">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    {% if entry.url %}
+                        <a href="{{ entry.url }}"
+                           class="entry-url"
+                           target="_blank"
+                           rel="noopener noreferrer">
+                            {{ entry.url }}
+                        </a>
+                    {% endif %}
+
+                    {% if entry.username %}
+                        <div class="entry-row">
+                            <span class="entry-label">Username</span>
+                            <span class="entry-value" id="un-{{ entry.id }}">{{ entry.username }}</span>
+                            <button class="btn-icon"
+                                    onclick="copyText('un-{{ entry.id }}', this)"
+                                    title="Copy username">Copy</button>
+                        </div>
+                    {% endif %}
+
+                    <div class="entry-row">
+                        <span class="entry-label">Password</span>
+                        <input type="password"
+                               value="{{ entry.password }}"
+                               readonly
+                               class="pw-display"
+                               id="pw-{{ entry.id }}">
+                        <button class="btn-icon"
+                                onclick="togglePwField('pw-{{ entry.id }}', this)"
+                                title="Show/hide password">Show</button>
+                        <button class="btn-icon"
+                                onclick="copyFromInput('pw-{{ entry.id }}', this)"
+                                title="Copy password">Copy</button>
+                    </div>
+
+                    {% if entry.notes %}
+                        <div class="entry-notes">{{ entry.notes }}</div>
+                    {% endif %}
+
+                    <div class="entry-meta">
+                        Updated {{ entry.updated_at.strftime('%b %d, %Y') }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    {% else %}
+        <div class="empty-state">
+            {% if query %}
+                <p>No entries match "{{ query }}".</p>
+            {% else %}
+                <p>Your vault is empty.</p>
+                <a href="{{ url_for('vault.add_entry') }}" class="btn btn-primary">Add your first entry</a>
+            {% endif %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

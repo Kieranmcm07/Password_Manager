@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block title %}Unlock Vault — KeyVault{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card">
+        <h1>Unlock your vault</h1>
+        <p class="auth-subtitle">
+            Enter your master password to decrypt your saved entries.
+            This password is not stored — it's used only to derive your encryption key.
+        </p>
+
+        <form method="POST" action="{{ url_for('vault.unlock') }}" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.master_password.label }}
+                {{ form.master_password(class="form-control", placeholder="Master password", autofocus=true) }}
+                {% for error in form.master_password.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Unlock</button>
+        </form>
+
+        <p class="auth-footer">
+            <a href="{{ url_for('auth.logout') }}">Log out instead</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

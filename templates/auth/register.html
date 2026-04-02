@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Register — KeyVault{% endblock %}
+
+{% block content %}
+<div class="auth-wrapper">
+    <div class="auth-card auth-card-wide">
+        <h1>Create an account</h1>
+        <p class="auth-subtitle">You'll set two passwords: one to log in, one to unlock your vault.</p>
+
+        <div class="info-box">
+            <strong>Account password</strong> — logs you into the app.<br>
+            <strong>Master password</strong> — encrypts your saved entries. 
+            It is never stored anywhere. If you forget it, your vault cannot be recovered.
+        </div>
+
+        <form method="POST" action="{{ url_for('auth.register') }}" novalidate>
+            {{ form.hidden_tag() }}
+
+            <div class="form-group">
+                {{ form.username.label }}
+                {{ form.username(class="form-control", placeholder="your_username") }}
+                {% for error in form.username.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.email.label }}
+                {{ form.email(class="form-control", placeholder="you@example.com") }}
+                {% for error in form.email.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <hr class="form-divider">
+            <p class="form-section-label">Account password</p>
+
+            <div class="form-group">
+                {{ form.password.label }}
+                {{ form.password(class="form-control", autocomplete="new-password") }}
+                {% for error in form.password.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.confirm_password.label }}
+                {{ form.confirm_password(class="form-control", autocomplete="new-password") }}
+                {% for error in form.confirm_password.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <hr class="form-divider">
+            <p class="form-section-label">Master password (vault encryption)</p>
+
+            <div class="form-group">
+                {{ form.master_password.label }}
+                {{ form.master_password(class="form-control", autocomplete="new-password") }}
+                {% for error in form.master_password.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                {{ form.confirm_master.label }}
+                {{ form.confirm_master(class="form-control", autocomplete="new-password") }}
+                {% for error in form.confirm_master.errors %}
+                    <span class="field-error">{{ error }}</span>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Create account</button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account? <a href="{{ url_for('auth.login') }}">Sign in</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

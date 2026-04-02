@@ -1,9 +1,16 @@
 # KeyVault — A Password Manager Learning Project
 
-A full-stack password manager built with Flask, SQLAlchemy, and PyNaCl. I built this as a portfolio project to learn how password managers actually work under the hood — specifically how to handle encryption, key derivation, and keeping sensitive data out of the database.
+A full-stack password manager built with Flask, SQLAlchemy, and PyNaCl.
 
-> **⚠️ Warning:** This is a learning project. It's not audited, hasn't had a security review, and shouldn't be used to store passwords you actually care about without doing your own review first. That said, the cryptographic design is intentional and documented — it's not just `base64("password")`. This is also build with the help of Claude.ai, which guides me on how to use the libraries correctly as
-im new to using libraries. Code is open source, so you can see exactly how everything works.
+## Honest disclaimer — read this first
+
+I didn't write this code myself. I used [Claude](https://claude.ai) to generate the whole thing pretty quickly, mainly because I didn't want to pay for a password manager subscription and wanted something I could run locally. The code is open source so you can see exactly how it works.
+
+That said, I'm not just copy-pasting blindly — I'm working through it to actually understand what it's doing: how the encryption works, why there are two separate passwords, what gets stored in the database and what doesn't. It's a good way to learn from real working code rather than toy examples.
+
+If you're looking at this and thinking about using it yourself, read the warning below and the security notes at the bottom.
+
+> **⚠️ Warning:** This is a learning project. It's not audited, hasn't had a security review, and shouldn't be used to store passwords you actually care about without doing your own review first. That said, the cryptographic design is intentional and documented — it's not just `base64("password")`.
 
 ---
 
@@ -33,6 +40,7 @@ There are two separate passwords:
 **Account password** — hashed with Argon2id via `argon2-cffi`. Never stored in a reversible form. Used only to log in.
 
 **Master password** — never stored at all. When you unlock your vault, the master password is run through Argon2id as a KDF (key derivation function) with a per-user random salt to produce a 32-byte encryption key. That key is used with PyNaCl's `SecretBox` (XSalsa20-Poly1305) to encrypt each vault entry individually.
+
 ```
 Master Password + Salt → Argon2id KDF → 32-byte key → SecretBox encrypt/decrypt
 ```
@@ -82,6 +90,7 @@ The derived key lives in the Flask session while the vault is unlocked. When you
 ## Setup
 
 **Requirements:** Python 3.10+
+
 ```bash
 git clone <repo-url>
 cd password-manager
@@ -120,6 +129,7 @@ The database is created automatically on first run at `vault.db`.
 ---
 
 ## Running tests
+
 ```bash
 pytest tests/ -v
 ```
@@ -129,6 +139,7 @@ Tests use an in-memory SQLite database and have CSRF + rate limiting disabled. N
 ---
 
 ## Project structure
+
 ```
 password-manager/
 ├── app.py              # App factory and entry point
