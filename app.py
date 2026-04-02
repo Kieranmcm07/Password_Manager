@@ -2,10 +2,9 @@ import os
 from flask import Flask
 from dotenv import load_dotenv
 
-from extensions import db, login_manager, limiter
+from extensions import db, login_manager, limiter, csrf
 from config import DevelopmentConfig, ProductionConfig, TestingConfig
 from models import User
-
 load_dotenv()
 
 
@@ -27,7 +26,8 @@ def create_app(config_class=None):
     db.init_app(app)
     login_manager.init_app(app)
     limiter.init_app(app)
-
+    csrf.init_app(app)
+    
     login_manager.login_view = "auth.login"
     login_manager.login_message = "Please log in to continue."
     login_manager.login_message_category = "info"
