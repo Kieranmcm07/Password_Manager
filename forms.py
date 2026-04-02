@@ -76,3 +76,6 @@ class VaultEntryForm(FlaskForm):
         "Category",
         validators=[Optional(), Length(max=100)],
     )
+    
+# Form classes with validation. The registration form asks for both an account password
+# And a separate master password up front, so the user understands from the start that these are two different things.
