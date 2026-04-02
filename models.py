@@ -21,7 +21,7 @@ class User(UserMixin, db.Model):
     
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
-    entries = db,relationship("VaultEntry",backref="owner",lazy=True, cascade="all, delete-orphan")
+    entries = db.relationship("VaultEntry", backref="owner", lazy=True, cascade="all, delete-orphan")
     
     def __repr__(self):
         return f"<User {self.username}>"
