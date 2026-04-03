@@ -1,8 +1,8 @@
-# KeyVault — A Password Manager Learning Project
+# KeyVault - A Password Manager Learning Project
 
 A full-stack password manager built with Flask, SQLAlchemy, and PyNaCl.
 
-## Honest disclaimer — read this first
+## Honest disclaimer - read this first
 
 I didn't write this code myself. I used [Claude](https://claude.ai) to generate the whole thing pretty quickly, mainly because I didn't want to pay for a password manager subscription and wanted something I could run locally. The code is open source so you can see exactly how it works.
 
